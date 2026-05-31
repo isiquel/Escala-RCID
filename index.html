@@ -143,7 +143,7 @@
 
     .paper {
       width: 210mm;
-      height: 297mm;
+      min-height: 297mm;
       margin: 0 auto;
       background: white;
       padding: 8mm;
@@ -153,7 +153,7 @@
 
     .page-border {
       width: 100%;
-      height: 281mm;
+      min-height: 281mm;
       border: 4px double #111;
       padding: 6mm 7mm;
       position: relative;
@@ -307,7 +307,7 @@
     }
 
     .notices {
-      margin-top: 11mm;
+      margin-top: 10mm;
       padding: 0 20mm;
     }
 
@@ -403,11 +403,11 @@
     @media print {
       html, body {
         width: 210mm !important;
-        height: 297mm !important;
+        min-height: 297mm !important;
         margin: 0 !important;
         padding: 0 !important;
         background: white !important;
-        overflow: hidden !important;
+        overflow: visible !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -420,7 +420,7 @@
       .app-shell {
         display: block !important;
         width: 210mm !important;
-        height: 297mm !important;
+        min-height: 297mm !important;
         margin: 0 !important;
         padding: 0 !important;
       }
@@ -428,17 +428,15 @@
       .preview-wrap {
         display: block !important;
         width: 210mm !important;
-        height: 297mm !important;
+        min-height: 297mm !important;
         margin: 0 !important;
         padding: 0 !important;
-        overflow: hidden !important;
+        overflow: visible !important;
       }
 
       .paper {
         width: 210mm !important;
-        height: 297mm !important;
         min-height: 297mm !important;
-        max-height: 297mm !important;
         margin: 0 !important;
         padding: 8mm !important;
         box-shadow: none !important;
@@ -450,18 +448,9 @@
       }
 
       .page-border {
-        height: 281mm !important;
         min-height: 281mm !important;
-        max-height: 281mm !important;
         overflow: hidden !important;
         page-break-inside: avoid !important;
-      }
-
-      button,
-      input,
-      textarea,
-      select {
-        display: none !important;
       }
     }
   </style>
@@ -518,12 +507,12 @@
         </div>
 
         <div class="btns">
-          <button class="secondary" onclick="generateMonth()">Gerar mês</button>
+          <button class="secondary" onclick="generateMonth(true)">Gerar / atualizar mês</button>
           <button class="muted" onclick="fillDefaultServices()">Preencher trabalhos</button>
         </div>
 
         <div class="small-help">
-          O app cria todos os dias do mês automaticamente com o dia da semana correto.
+          Ao trocar o mês ou o ano, os dias e os dias da semana são atualizados automaticamente.
         </div>
       </section>
 
@@ -578,7 +567,7 @@ Dia 10:
               <div></div>
             </header>
 
-            <div id="previewMonth" class="month-line">ESCALA — AGOSTO / 2026</div>
+            <div id="previewMonth" class="month-line">ESCALA — JUNHO / 2026</div>
 
             <table class="schedule-table">
               <thead>
@@ -623,28 +612,47 @@ Dia 10:
       return String(day).padStart(2, '0');
     }
 
-    function generateMonth() {
+    function escapeAttr(value) {
+      return String(value || '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('"', '&quot;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;');
+    }
+
+    function getDayName(year, month, dayNumber) {
+      const date = new Date(year, month, dayNumber);
+      return weekDays[date.getDay()];
+    }
+
+    function generateMonth(clearOld = false) {
       const month = Number($('monthSelect').value);
       const year = Number($('yearInput').value);
       const totalDays = new Date(year, month + 1, 0).getDate();
 
+      const previousData = clearOld ? [] : [...scheduleData];
+
       scheduleData = Array.from({ length: totalDays }, (_, index) => {
         const dayNumber = index + 1;
-        const date = new Date(year, month, dayNumber);
-        const old = scheduleData.find(item => item.dt === padDay(dayNumber));
+        const dt = padDay(dayNumber);
+        const old = previousData.find(item => item.dt === dt);
 
-        return old || {
-          dt: padDay(dayNumber),
-          day: weekDays[date.getDay()],
-          leader: '',
-          doorkeeper: '',
-          preacher: '',
-          service: ''
+        return {
+          dt,
+          day: getDayName(year, month, dayNumber),
+          leader: old?.leader || '',
+          doorkeeper: old?.doorkeeper || '',
+          preacher: old?.preacher || '',
+          service: old?.service || ''
         };
       });
 
       renderEditors();
       renderPreview();
+    }
+
+    function forceRegenerateMonth() {
+      generateMonth(true);
     }
 
     function renderEditors() {
@@ -676,14 +684,6 @@ Dia 10:
 
         editor.appendChild(div);
       });
-    }
-
-    function escapeAttr(value) {
-      return String(value || '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('"', '&quot;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;');
     }
 
     function updateDay(index, key, value) {
@@ -763,7 +763,7 @@ Dia 10:
       $('logoFallback').style.display = 'flex';
 
       scheduleData = [];
-      generateMonth();
+      generateMonth(true);
     }
 
     function setupListeners() {
@@ -771,8 +771,17 @@ Dia 10:
         $(id).addEventListener('input', renderPreview);
       });
 
-      $('monthSelect').addEventListener('change', generateMonth);
-      $('yearInput').addEventListener('change', generateMonth);
+      $('monthSelect').addEventListener('change', () => {
+        generateMonth(true);
+      });
+
+      $('yearInput').addEventListener('input', () => {
+        generateMonth(true);
+      });
+
+      $('yearInput').addEventListener('change', () => {
+        generateMonth(true);
+      });
 
       $('logoInput').addEventListener('change', (event) => {
         const file = event.target.files?.[0];
@@ -804,7 +813,7 @@ Dia 10:
     $('monthSelect').value = String(new Date().getMonth());
     $('yearInput').value = new Date().getFullYear();
 
-    generateMonth();
+    generateMonth(true);
   </script>
 </body>
 </html>
