@@ -156,8 +156,8 @@
     }
 
     .paper {
-      width: 210mm;
-      min-height: 297mm;
+      width: 297mm;
+      height: 210mm;
       margin: 0 auto;
       background: white;
       padding: 8mm;
@@ -167,9 +167,9 @@
 
     .page-border {
       width: 100%;
-      min-height: 281mm;
+      height: 194mm;
       border: 4px double #111;
-      padding: 6mm 7mm;
+      padding: 5mm 7mm;
       position: relative;
       overflow: hidden;
     }
@@ -181,11 +181,11 @@
       align-items: center;
       justify-content: center;
       pointer-events: none;
-      opacity: .045;
-      font-size: 155px;
+      opacity: .04;
+      font-size: 180px;
       font-weight: 900;
       letter-spacing: -10px;
-      transform: rotate(-15deg);
+      transform: rotate(-12deg);
       color: #111;
       z-index: 0;
       user-select: none;
@@ -199,10 +199,10 @@
 
     .header {
       display: grid;
-      grid-template-columns: 82px 1fr 82px;
+      grid-template-columns: 70px 1fr 70px;
       align-items: center;
-      margin-bottom: 5px;
-      min-height: 70px;
+      margin-bottom: 3px;
+      min-height: 54px;
     }
 
     .logo-box {
@@ -212,22 +212,22 @@
     }
 
     .logo-preview {
-      width: 62px;
-      height: 62px;
+      width: 52px;
+      height: 52px;
       object-fit: contain;
       display: none;
     }
 
     .logo-fallback {
-      width: 62px;
-      height: 62px;
+      width: 52px;
+      height: 52px;
       border: 3px solid #0f3e8a;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #0f3e8a;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 900;
       text-align: center;
       line-height: 1;
@@ -241,22 +241,24 @@
       font-family: Georgia, 'Times New Roman', serif;
       font-style: italic;
       font-size: 13px;
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
 
     .church-title .name {
-      font-size: 29px;
+      font-size: 28px;
       font-weight: 900;
       font-style: italic;
       letter-spacing: .5px;
       margin-bottom: 0;
+      line-height: 1;
     }
 
     .church-title .phrase {
       font-family: 'Brush Script MT', 'Segoe Script', cursive;
       font-style: italic;
-      font-size: 20px;
+      font-size: 18px;
       color: #333;
+      line-height: 1.05;
     }
 
     .month-line {
@@ -264,7 +266,8 @@
       font-weight: 900;
       font-size: 14px;
       text-transform: uppercase;
-      margin: 3px 0 6px;
+      margin: 2px 0 5px;
+      letter-spacing: .4px;
     }
 
     table {
@@ -275,11 +278,11 @@
 
     .schedule-table th,
     .schedule-table td {
-      border: 1px solid #555;
-      padding: 2px 4px;
-      font-size: 11px;
-      height: 5.55mm;
-      line-height: 1.05;
+      border: 1px solid #444;
+      padding: 2px 5px;
+      font-size: 12.6px;
+      height: 4.15mm;
+      line-height: 1;
       text-align: center;
       vertical-align: middle;
       word-wrap: break-word;
@@ -290,7 +293,7 @@
       background: #f1f5f9;
       font-weight: 900;
       font-style: italic;
-      height: 6mm;
+      height: 5mm;
     }
 
     .schedule-table td {
@@ -298,46 +301,46 @@
     }
 
     .schedule-table .dt {
-      width: 36px;
+      width: 38px;
       font-weight: 900;
       font-style: italic;
     }
 
     .schedule-table .day {
-      width: 118px;
+      width: 135px;
     }
 
     .schedule-table .leaders,
-    .schedule-table .doors {
-      width: 130px;
-    }
-
+    .schedule-table .doors,
     .schedule-table .preachers {
-      width: 125px;
+      width: 175px;
     }
 
     .schedule-table .service {
-      width: 125px;
+      width: 190px;
     }
 
     .notices {
-      margin-top: 10mm;
-      padding: 0 20mm;
+      margin-top: 4.5mm;
+      padding: 0 9mm;
     }
 
     .notices h2 {
       text-align: center;
-      font-size: 28px;
-      margin: 0 0 11px;
+      font-size: 22px;
+      margin: 0 0 4px;
       font-weight: 900;
       font-style: italic;
+      line-height: 1;
     }
 
     .notice-content {
-      font-size: 12px;
-      line-height: 1.45;
+      font-size: 12.2px;
+      line-height: 1.28;
       font-style: italic;
       white-space: pre-line;
+      column-count: 2;
+      column-gap: 22mm;
     }
 
     .small-help {
@@ -461,9 +464,9 @@
       }
 
       .paper {
-        transform: scale(.72);
+        transform: scale(.62);
         transform-origin: top center;
-        margin-bottom: -80mm;
+        margin-bottom: -70mm;
       }
     }
 
@@ -473,9 +476,9 @@
       }
 
       .paper {
-        transform: scale(.47);
+        transform: scale(.33);
         transform-origin: top center;
-        margin-bottom: -155mm;
+        margin-bottom: -125mm;
       }
 
       .row,
@@ -486,18 +489,18 @@
     }
 
     @page {
-      size: A4 portrait;
+      size: A4 landscape;
       margin: 0;
     }
 
     @media print {
       html, body {
-        width: 210mm !important;
-        min-height: 297mm !important;
+        width: 297mm !important;
+        height: 210mm !important;
         margin: 0 !important;
         padding: 0 !important;
         background: white !important;
-        overflow: visible !important;
+        overflow: hidden !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
       }
@@ -509,24 +512,26 @@
 
       .app-shell {
         display: block !important;
-        width: 210mm !important;
-        min-height: 297mm !important;
+        width: 297mm !important;
+        height: 210mm !important;
         margin: 0 !important;
         padding: 0 !important;
       }
 
       .preview-wrap {
         display: block !important;
-        width: 210mm !important;
-        min-height: 297mm !important;
+        width: 297mm !important;
+        height: 210mm !important;
         margin: 0 !important;
         padding: 0 !important;
-        overflow: visible !important;
+        overflow: hidden !important;
       }
 
       .paper {
-        width: 210mm !important;
-        min-height: 297mm !important;
+        width: 297mm !important;
+        height: 210mm !important;
+        min-height: 210mm !important;
+        max-height: 210mm !important;
         margin: 0 !important;
         padding: 8mm !important;
         box-shadow: none !important;
@@ -538,7 +543,9 @@
       }
 
       .page-border {
-        min-height: 281mm !important;
+        height: 194mm !important;
+        min-height: 194mm !important;
+        max-height: 194mm !important;
         overflow: hidden !important;
         page-break-inside: avoid !important;
       }
@@ -637,6 +644,10 @@ Dia 10:
         <div class="btns">
           <button class="primary" onclick="printScale()">Salvar / imprimir PDF</button>
           <button class="danger" onclick="resetAll()">Limpar tudo</button>
+        </div>
+
+        <div class="small-help">
+          O PDF será gerado em A4 paisagem para deixar a escala maior e mais legível.
         </div>
       </section>
     </aside>
